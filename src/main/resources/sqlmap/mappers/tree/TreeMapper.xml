@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tree.tree.mapper.TreeMapper">
+    <select id="getTreeList" resultType="tree.tree.dto.TreeResponseDto">
+        select *
+          from tree
+         where ST_DISTANCE_SPHERE(point(${mapX}, ${mapY}), point(treeX,treeY)) <![CDATA[ <= ]]> 1000  /* 1000M */
+    </select>
+
+    <select id="getTreeListBySearch" resultType="tree.tree.dto.TreeResponseDto">
+        select *
+          from tree
+         where treeName like '%${searchParam}%'
+            or treeAddr like '%${searchParam}%'
+    </select>
+</mapper>
