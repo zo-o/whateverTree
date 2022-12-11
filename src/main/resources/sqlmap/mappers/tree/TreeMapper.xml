@@ -10,8 +10,8 @@
     <select id="getTreeListBySearch" resultType="tree.tree.dto.TreeResponseDto">
         select *
           from tree
-         where treeName like '%'||#{searchParam}||'%'
-            or treeAddr like '%'||#{searchParam}||'%'
+         where treeName like concat('%',#{searchParam},'%')
+            or treeAddr like concat('%',#{searchParam},'%')
     </select>
 
     <select id="getTree" resultType="tree.tree.dto.TreeDetailResponseDto">

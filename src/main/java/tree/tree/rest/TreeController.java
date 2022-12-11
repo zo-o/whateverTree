@@ -1,17 +1,17 @@
 package tree.tree.rest;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tree.tree.dto.*;
 import tree.tree.service.TreeService;
 import tree.config.ResultDto;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/trees")
@@ -26,7 +26,11 @@ public class TreeController {
      * @return
      */
     @GetMapping
-    public ResultDto getTreeList(TreeRequestDto treeRequestDto) {
+    public ResultDto getTreeList(@RequestParam Map<String, String> params) {
+        // jackson 라이브러리의 ObjectMapper 클래스를 이용하여  Snake Case -> Camel Case
+        ObjectMapper mapper = new ObjectMapper();
+        TreeRequestDto treeRequestDto = mapper.convertValue(params, TreeRequestDto.class);
+
         ResultDto resultDto = new ResultDto();
         List<TreeResponseDto> treeResponseDto = treeService.getTreeList(treeRequestDto);
         resultDto.setSuccess(true);
@@ -40,7 +44,11 @@ public class TreeController {
      * @return
      */
     @GetMapping("/search")
-    public ResultDto getTreeListBySearch(TreeRequestDto treeRequestDto){
+    public ResultDto getTreeListBySearch(@RequestParam Map<String, String> params){
+        // jackson 라이브러리의 ObjectMapper 클래스를 이용하여  Snake Case -> Camel Case
+        ObjectMapper mapper = new ObjectMapper();
+        TreeRequestDto treeRequestDto = mapper.convertValue(params, TreeRequestDto.class);
+
         ResultDto resultDto = new ResultDto();
         List<TreeResponseDto> treeResponseDto = treeService.getTreeListBySearch(treeRequestDto);
         resultDto.setSuccess(true);
@@ -69,11 +77,11 @@ public class TreeController {
      * @return
      */
     @PostMapping
-    public ResultDto insertTree(TreePostRequestDto treePostRequestDto){
+    public ResultDto insertTree(@RequestBody TreePostRequestDto treePostRequestDto){
         ResultDto resultDto = new ResultDto();
         String treeId = treeService.insertTree(treePostRequestDto);
         HashMap<String,String> map = new HashMap();
-        map.put("treeId", treeId);
+        map.put("tree_id", treeId);
         resultDto.setData(map);
         resultDto.setSuccess(true);
         return resultDto;
