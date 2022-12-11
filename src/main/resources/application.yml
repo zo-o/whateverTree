@@ -6,7 +6,7 @@ spring:
     username: lwkhap0puqy6cyeq
     password: bltz2sj4sfccpgb0
     hikari:
-      maximum-pool-size: 30
+      maximum-pool-size: 5
       leakDetectionThreshold: 240000
       connection-test-query: SELECT 1 from dual
 mybatis:
