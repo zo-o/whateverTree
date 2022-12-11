@@ -4,13 +4,47 @@
     <select id="getTreeList" resultType="tree.tree.dto.TreeResponseDto">
         select *
           from tree
-         where ST_DISTANCE_SPHERE(point(${mapX}, ${mapY}), point(treeX,treeY)) <![CDATA[ <= ]]> 1000  /* 1000M */
+         where ST_DISTANCE_SPHERE(point(#{mapX}, #{mapY}), point(treeX,treeY)) <![CDATA[ <= ]]> 1000  /* 1000M */
     </select>
 
     <select id="getTreeListBySearch" resultType="tree.tree.dto.TreeResponseDto">
         select *
           from tree
-         where treeName like '%${searchParam}%'
-            or treeAddr like '%${searchParam}%'
+         where treeName like '%'||#{searchParam}||'%'
+            or treeAddr like '%'||#{searchParam}||'%'
     </select>
+
+    <select id="getTree" resultType="tree.tree.dto.TreeDetailResponseDto">
+        select t.*,
+               case when s.userId  then true else false end as treeLike
+          from tree t
+          left join star s
+            on t.treeId  = s.treeId
+           and s.userId = #{userId}
+         where t.treeId = #{treeId}
+    </select>
+
+    <insert id="insertTree" useGeneratedKeys="true" keyProperty="treeId" parameterType="tree.tree.dto.TreePostRequestDto">
+        INSERT INTO tree(
+            treeName,
+            treeAddr,
+            treeDetailAddr,
+            treeX,
+            treeY,
+            regId,
+            regDate,
+            modId,
+            modDate)
+        VALUES(
+            #{treeName},
+            #{treeAddr},
+            #{treeDetailAddr},
+            #{treeX},
+            #{treeY},
+            'admin',
+            now(),
+            'admin',
+            now()
+        )
+    </insert>
 </mapper>

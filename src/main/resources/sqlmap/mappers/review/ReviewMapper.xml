@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tree.review.mapper.ReviewMapper">
+    <select id="getReviewList" resultType="tree.review.dto.ReviewResponseDto">
+        select *
+        from review
+        where treeId = #{treeId}
+        order by regDate desc
+    </select>
+
+    <select id="getReviewImgList" resultType="String">
+        select reviewImg
+          from review
+         where treeId = #{treeId}
+           and reviewImg is not null
+         order by regDate desc
+    </select>
+
+</mapper>

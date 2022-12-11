@@ -3,13 +3,14 @@ package tree.tree.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tree.tree.dto.TreeRequestDto;
-import tree.tree.dto.TreeResponseDto;
+import tree.tree.dto.*;
 import tree.tree.service.TreeService;
-import tree.util.ResultDto;
+import tree.config.ResultDto;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,14 @@ public class TreeController {
      *
      * @return
      */
-    @GetMapping("/")
-    public List<TreeResponseDto> getTreeList(TreeRequestDto treeRequestDto) {
-        return treeService.getTreeList(treeRequestDto);
+    @GetMapping
+    public ResultDto getTreeList(TreeRequestDto treeRequestDto) {
+        ResultDto resultDto = new ResultDto();
+        List<TreeResponseDto> treeResponseDto = treeService.getTreeList(treeRequestDto);
+        resultDto.setSuccess(true);
+        resultDto.setData(treeResponseDto);
+
+        return resultDto;
     }
 
     /**
@@ -40,6 +46,36 @@ public class TreeController {
         resultDto.setSuccess(true);
         resultDto.setData(treeResponseDto);
 
+        return resultDto;
+    }
+
+    /**
+     * 트리 상세조회
+     * @param treeDetailRequestDto
+     * @return
+     */
+    @GetMapping("/{treeId}")
+    public ResultDto getTree(TreeDetailRequestDto treeDetailRequestDto){
+        ResultDto resultDto = new ResultDto();
+        TreeDetailResponseDto treeDetailResponseDto = treeService.getTree(treeDetailRequestDto);
+        resultDto.setSuccess(true);
+        resultDto.setData(treeDetailResponseDto);
+        return resultDto;
+    }
+
+    /**
+     * 트리 등록
+     * @param treePostRequestDto
+     * @return
+     */
+    @PostMapping
+    public ResultDto insertTree(TreePostRequestDto treePostRequestDto){
+        ResultDto resultDto = new ResultDto();
+        String treeId = treeService.insertTree(treePostRequestDto);
+        HashMap<String,String> map = new HashMap();
+        map.put("treeId", treeId);
+        resultDto.setData(map);
+        resultDto.setSuccess(true);
         return resultDto;
     }
 }

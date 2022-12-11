@@ -1,8 +1,7 @@
 package tree.tree.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import tree.tree.dto.TreeRequestDto;
-import tree.tree.dto.TreeResponseDto;
+import tree.tree.dto.*;
 
 import java.util.List;
 
@@ -10,4 +9,6 @@ import java.util.List;
 public interface TreeMapper {
     List<TreeResponseDto> getTreeList(TreeRequestDto treeRequestDto);
     List<TreeResponseDto> getTreeListBySearch(TreeRequestDto treeRequestDto);
+    TreeDetailResponseDto getTree(TreeDetailRequestDto treeDetailRequestDto);
+    void insertTree(TreePostRequestDto treePostRequestDto);
 }

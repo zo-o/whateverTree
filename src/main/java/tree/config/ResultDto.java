@@ -1,4 +1,4 @@
-package tree.util;
+package tree.config;
 
 import lombok.Getter;
 import lombok.Setter;

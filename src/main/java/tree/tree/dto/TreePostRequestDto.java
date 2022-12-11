@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TreePostRequestDto {
-    private String treeId;
+    private int treeId;
     private String treeName;
     private String treeAddr;
     private String treeDetailAddr;
