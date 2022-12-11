@@ -47,4 +47,23 @@
             now()
         )
     </insert>
+
+    <insert id="insertTreeLike">
+        INSERT INTO star(
+            treeId,
+            userId,
+            regDate
+        )
+        VALUES(
+            #{treeId},
+            #{userId},
+            now()
+        );
+    </insert>
+
+    <delete id="deleteTreeLike">
+        delete from star
+         where treeId = #{treeId}
+           and userId = #{userId}
+    </delete>
 </mapper>
